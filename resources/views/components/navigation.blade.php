@@ -37,17 +37,25 @@
                 });
             </script>
             <button type="button" class="flex mr-3 text-sm bg-gray-10 rounded-full md:mr-0 focus:ring-4
-            focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false"
+focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false"
                 data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                <span class=" sr-only">Open user menu</span>
+                <span class="sr-only">Open user menu</span>
+                @auth
+                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
+                    alt="{{ Auth::user()->name }}" />
+                    @endauth
+                @else
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 11 14H9a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 10 19Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 </svg>
+                @endif
             </button>
+
             <!-- Dropdown menu -->
-            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+            <div class=" rounded z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                 id="user-dropdown">
                 @auth
                 <div class="px-4 py-3">

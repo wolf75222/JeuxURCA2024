@@ -34,30 +34,28 @@
             </label>
 
             <script>
-                const themeToggle = document.getElementById('themeToggle');
-                const html = document.documentElement;
-
-                function setTheme() {
-                    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                        html.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    const themeToggle = document.getElementById('themeToggle');
+                    const theme = '{{ Cookie::get('theme', 'light') }}';
+                    if (theme === 'dark') {
+                        document.documentElement.classList.add('dark');
                         themeToggle.checked = true;
                     } else {
-                        html.classList.remove('dark');
+                        document.documentElement.classList.remove('dark');
                         themeToggle.checked = false;
-                    }
-                }
-
-                themeToggle.addEventListener('change', function() {
-                    if (this.checked) {
-                        html.classList.add('dark');
-                        localStorage.setItem('color-theme', 'dark');
-                    } else {
-                        html.classList.remove('dark');
-                        localStorage.setItem('color-theme', 'light');
                     }
                 });
 
-                setTheme();
+                const themeToggle = document.getElementById('themeToggle');
+                themeToggle.addEventListener('change', toggleTheme);
+
+                function toggleTheme() {
+                    var theme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+                    document.documentElement.classList.toggle('dark', theme === 'dark');
+                    themeToggle.checked = theme === 'dark';
+
+                    fetch('/theme/' + theme).catch(console.error);
+                }
             </script>
         </div>
 
