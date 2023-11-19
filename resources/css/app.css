@@ -1,0 +1,18 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.hover-reflection-effect:hover img {
+    filter: brightness(110%) contrast(100%);
+    transition: all 0.3s ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+    .bg-slate-100 {
+        @apply dark:bg-gray-900;
+    }
+}
