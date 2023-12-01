@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teams', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('members_count')->default(0);
-            // Add more columns as needed
-
-            $table->timestamps();
+        Schema::table('teams', function (Blueprint $table) {
+            $table->integer('points');
+            $table->integer('medailles');
         });
     }
 
@@ -26,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teams');
+        Schema::table('teams', function (Blueprint $table) {
+            $table->dropColumn('points');
+            $table->dropColumn('medailles');
+        });
     }
 };

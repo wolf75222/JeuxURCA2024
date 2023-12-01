@@ -35,6 +35,7 @@ class Event extends Model
     public function register_teams() {
         return $this->belongsToMany(Team::class, 'teams_register_events', 'event_id', 'team_id')
             ->withPivot('points as current_points')
+            ->withPivot('id as registration_id')
             ->withTimestamps();
     }
 }
