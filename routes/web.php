@@ -15,65 +15,68 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
 
-Route::get('/sports', function () {
-    return view('sports');
+Route::get('pages/sports', function () {
+    return view('pages.sports');
 });
 
 
 
-Route::get('/classement', function () {
-    return view('classement');
+Route::get('pages/classement', function () {
+    return view('pages.classement');
 });
 
-Route::get('/handball', function () {
-    return view('handball');
+Route::get('events/handball', function () {
+    return view('events.handball');
 });
 
-Route::get('/sumo', function () {
-    return view('sumo');
+Route::get('events/sumo', function () {
+    return view('events.sumo');
 });
 
-Route::get('/TouchRugby', function () {
-    return view('TouchRugby');
+Route::get('events/TouchRugby', function () {
+    return view('events.TouchRugby');
 });
 
-Route::get('/lazerRun', function () {
-    return view('lazerRun');
+Route::get('events/lazerRun', function () {
+    return view('events.lazerRun');
 });
 
-Route::get('/futsal', function () {
-    return view('futsal');
+Route::get('events/futsal', function () {
+    return view('events.futsal');
 });
 
-Route::get('/paletsBretons', function () {
-    return view('paletsBretons');
-});
-
-
-Route::get('/badminton', function () {
-    return view('badminton');
+Route::get('events/paletsBretons', function () {
+    return view('events.paletsBretons');
 });
 
 
-Route::get('/relaisCrossfit', function () {
-    return view('relaisCrossfit');
+Route::get('events/badminton', function () {
+    return view('events.badminton');
 });
 
-Route::get('/volley', function () {
-    return view('volley');
+
+Route::get('events/relaisCrossfit', function () {
+    return view('events.relaisCrossfit');
 });
 
-Route::get('/basket', function () {
-    return view('basket');
+Route::get('events/volley', function () {
+    return view('events.volley');
 });
 
-Route::get('/relaisMarathon', function () {
-    return view('relaisMarathon');
+Route::get('events/basket', function () {
+    return view('events.basket');
 });
 
-Route::get('/relais', function () {
-    return view('relais');
+Route::get('events/relaisMarathon', function () {
+    return view('events.relaisMarathon');
 });
+
+Route::get('events/relais', function () {
+    return view('events.relais');
+});
+
+Route::get('pages/equipes', [App\Http\Controllers\TeamController::class, 'equipes'])->name('pages.equipes');
+
 
 Route::middleware([
     'auth:sanctum',
@@ -81,14 +84,12 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('home', function () {
-        return view('home');
+        return view('pages.home');
     })->name('home');
 });
 
 Route::middleware(['admin_or_organizer'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.dashboard');
 });
 
 //Route [verification.notice] not defined.
@@ -101,6 +102,60 @@ Route::get('/theme/{theme}', function ($theme) {
     return back();
 })->name('theme.switch');
 
-Route::get('/settings', function () {
-    return view('settings');
-})->middleware(['auth'])->name('settings');
+Route::get('pages/settings', function () {
+    return view('pages.settings');
+})->middleware(['auth'])->name('pages/settings');
+
+Route::get('/dashboard/usersChartData', [\App\Http\Controllers\DashboardController::class, 'usersChartData']);
+
+
+Route::middleware(['admin_or_organizer'])->group(function () {
+    Route::get('/dashboard/users', [\App\Http\Controllers\UserController::class, 'index'])->name('dashboard.dashboard-users');
+});
+
+Route::middleware(['admin_or_organizer'])->group(function () {
+    Route::get('/dashboard/teams', [\App\Http\Controllers\TeamController::class, 'index'])->name('dashboard.dashboard-teams');
+});
+
+Route::put('/users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
+Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+
+Route::post('/dashboard/users/destroy-selected', [App\Http\Controllers\UserController::class, 'destroySelected'])->name('users.destroySelected');
+
+Route::get('/dashboard/users/search', [App\Http\Controllers\UserController::class, 'search'])->name('users.search');
+
+Route::post('/dashboard/users/reset-profile-photo', [App\Http\Controllers\UserController::class, 'resetProfilePhoto'])->name('users.resetProfilePhoto');
+
+Route::get('/dashboard/users/create', [App\Http\Controllers\UserController::class, 'create'])->name('users.create');
+
+Route::post('/dashboard/users/store', [App\Http\Controllers\UserController::class, 'store'])->name('users.store');
+
+
+Route::put('/dashboard/teams/update/{id}', [App\Http\Controllers\TeamController::class, 'update'])->name('teams.update');
+Route::get('/dashboard/teams/search', [App\Http\Controllers\TeamController::class, 'search'])->name('teams.search');
+//reset  profile photo
+Route::post('/dashboard/teams/resetTeamImage', [App\Http\Controllers\TeamController::class, 'resetTeamImage'])->name('teams.resetTeamImage');
+// create team
+Route::get('/dashboard/teams/create', [App\Http\Controllers\TeamController::class, 'create'])->name('teams.create');
+// store team
+Route::post('/dashboard/teams/store', [App\Http\Controllers\TeamController::class, 'store'])->name('teams.store');
+// destroy team
+Route::delete('/dashboard/teams/{team}', [App\Http\Controllers\TeamController::class, 'destroy'])->name('teams.destroy');
+// destroy selected team
+Route::post('/dashboard/teams/destroy-selected', [App\Http\Controllers\TeamController::class, 'destroySelected'])->name('teams.destroySelected');
+
+//show team 
+Route::get('/myteam', [App\Http\Controllers\TeamController::class, 'monequipe'])->name('teams.show');
+Route::post('/teams/join', [App\Http\Controllers\TeamController::class, 'joinTeam'])->name('teams.join');
+Route::get('/teams/createnew', [App\Http\Controllers\TeamController::class, 'createnew'])->name('teams.createnew');
+Route::post('/teams/{team}/leave', [App\Http\Controllers\TeamController::class, 'leaveTeam'])->name('teams.leave');
+Route::get('/teams/{team}/edit', [App\Http\Controllers\TeamController::class, 'edit'])->name('teams.edit');
+
+
+
+Route::post('/team/{team}/events/{event}/register', [App\Http\Controllers\TeamController::class, 'registerEvent'])->name('team.registerEvent');
+Route::delete('/team/{team}/events/{event}/unregister', [App\Http\Controllers\TeamController::class, 'unregisterEvent'])->name('team.unregisterEvent');
+Route::post('/team/{team}/events/{event}/increment', [App\Http\Controllers\TeamController::class, 'incrementOrder'])->name('team.incrementOrder');
+Route::post('/team/{team}/events/{event}/decrement', [App\Http\Controllers\TeamController::class, 'decrementOrder'])->name('team.decrementOrder');
+
+

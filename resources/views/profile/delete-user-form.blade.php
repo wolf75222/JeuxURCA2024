@@ -1,4 +1,4 @@
-<x-action-section>
+<x-sections.action-section>
     <x-slot name="title">
         {{ __('Supprimer le compte') }}
     </x-slot>
@@ -13,13 +13,13 @@
         </div>
 
         <div class="mt-5">
-            <x-danger-button wire:click="confirmUserDeletion" wire:loading.attr="disabled">
+            <x-buttons.danger-button wire:click="confirmUserDeletion" wire:loading.attr="disabled">
                 {{ __('Supprimer le compte') }}
-            </x-danger-button>
+            </x-buttons.danger-button>
         </div>
 
         <!-- Delete User Confirmation Modal -->
-        <x-dialog-modal wire:model.live="confirmingUserDeletion">
+        <x-modals.dialog-modal wire:model.live="confirmingUserDeletion">
             <x-slot name="title">
                 {{ __('Supprimer le compte') }}
             </x-slot>
@@ -28,26 +28,26 @@
                 {{ __('Êtes-vous sûr de vouloir supprimer votre compte ? Une fois votre compte supprimé, toutes ses ressources et données seront définitivement supprimées. Veuillez entrer votre mot de passe pour confirmer que vous souhaitez supprimer définitivement votre compte.') }}
 
                 <div class="mt-4" x-data="{}" x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-input type="password" class="mt-1 block w-3/4"
+                    <x-forms.input type="password" class="mt-1 block w-3/4"
                                 autocomplete="current-password"
                                 placeholder="{{ __('Password') }}"
                                 x-ref="password"
                                 wire:model="password"
                                 wire:keydown.enter="deleteUser" />
 
-                    <x-input-error for="password" class="mt-2" />
+                    <x-forms.input-error for="password" class="mt-2" />
                 </div>
             </x-slot>
 
             <x-slot name="footer">
-                <x-secondary-button wire:click="$toggle('confirmingUserDeletion')" wire:loading.attr="disabled">
+                <x-buttons.secondary-button wire:click="$toggle('confirmingUserDeletion')" wire:loading.attr="disabled">
                     {{ __('Annuler') }}
-                </x-secondary-button>
+                </x-buttons.secondary-button>
 
-                <x-danger-button class="ms-3" wire:click="deleteUser" wire:loading.attr="disabled">
+                <x-buttons.danger-button class="ms-3" wire:click="deleteUser" wire:loading.attr="disabled">
                     {{ __('Supprimer le compte') }}
-                </x-danger-button>
+                </x-buttons.danger-button>
             </x-slot>
-        </x-dialog-modal>
+        </x-modals.dialog-modal>
     </x-slot>
-</x-action-section>
+</x-sections.action-section>

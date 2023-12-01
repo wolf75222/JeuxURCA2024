@@ -1,9 +1,9 @@
-<body class="bg-white dark:bg-gray-900">
-    <header>
-        @include('components.navigation')
-    </header>
+{{-- resources/views/auth/reset-password.blade.php --}}
+<!-- Status : factorisation -->
 
-    <x-guest-layout>
+@extends('layouts.guest', ['title' => 'Réinitialisation du mot de passe'])
+
+@section('content')
         <section class="bg-white dark:bg-gray-900">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="{{ url('/') }}" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
@@ -46,7 +46,4 @@
                 </div>
             </div>
         </section>
-    </x-guest-layout>
-
-    <x-footer :year="date('Y')" />
-</body>
+@endsection

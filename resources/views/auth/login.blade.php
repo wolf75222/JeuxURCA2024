@@ -1,9 +1,10 @@
-<body class="bg-white dark:bg-gray-900">
-    <header>
-        @include('components.navigation')
-    </header>
+{{-- resources/views/auth/login.blade.php --}}
 
-    <x-guest-layout>
+<!-- Status : factorisation -->
+
+@extends('layouts.guest', ['title' => 'Connexion'])
+
+@section('content')
         <section class="bg-white dark:bg-gray-900">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="{{ url('/') }}"
@@ -18,7 +19,7 @@
                             Connectez-vous à votre compte
                         </h1>
 
-                        <x-validation-errors class="mb-4" />
+                        <x-forms.validation-errors class="mb-4" />
 
                         @if (session('status'))
                         <div class="mb-4 font-medium text-sm text-green-600">
@@ -59,7 +60,7 @@
                                     __('Mot de passe oublié?') }}</a>
                                 @endif
                             </div>
-                            <button type="submit" class="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ __('Log in') }} </button>
+                            <button type="submit" class="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{ __('Se connecter') }} </button>
                         </form>
                         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                             Vous n'avez pas encore de compte? <a href="{{ route('register') }}"
@@ -69,7 +70,5 @@
                 </div>
             </div>
         </section>
-    </x-guest-layout>
 
-    <x-footer :year="date('Y')" />
-</body>
+@endsection

@@ -1,4 +1,10 @@
-<x-app-layout>
+{{-- resources/views/profile/show.blade.php --}}
+
+<!-- Status : factorisation -->
+
+@extends('layouts.app', ['title' => 'Profil'])
+
+@section('content')
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Profile') }}
@@ -11,7 +17,7 @@
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
                 @livewire('profile.update-profile-information-form')
 
-                <x-section-border />
+                <x-sections.section-border />
             @endif
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
@@ -19,7 +25,7 @@
                     @livewire('profile.update-password-form')
                 </div>
 
-                <x-section-border />
+                <x-sections.section-border />
             @endif
 
             @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
@@ -27,7 +33,7 @@
                     @livewire('profile.two-factor-authentication-form')
                 </div>
 
-                <x-section-border />
+                <x-sections.section-border />
             @endif
 
             <div class="mt-10 sm:mt-0">
@@ -35,7 +41,7 @@
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
-                <x-section-border />
+                <x-sections.section-border />
 
                 <div class="mt-10 sm:mt-0">
                     @livewire('profile.delete-user-form')
@@ -43,4 +49,5 @@
             @endif
         </div>
     </div>
-</x-app-layout>
+
+@endsection

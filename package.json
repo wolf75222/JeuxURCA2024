@@ -17,6 +17,8 @@
     },
     "dependencies": {
         "alpinejs": "^3.13.2",
-        "flowbite": "^2.1.1"
+        "apexcharts": "^3.44.0",
+        "flowbite": "^2.1.1",
+        "maildev": "^2.1.0"
     }
 }

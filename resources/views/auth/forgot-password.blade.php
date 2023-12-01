@@ -1,9 +1,9 @@
-<body class="bg-white dark:bg-gray-900">
-    <header>
-        @include('components.navigation')
-    </header>
+{{-- resources/views/auth/forgot-password.blade.php --}}
+<!-- Status : factorisation -->
 
-    <x-guest-layout>
+@extends('layouts.guest', ['title' => 'Mot de passe oublié'])
+
+@section('content')
         <section class="bg-white dark:bg-gray-900">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="{{ url('/') }}" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <x-validation-errors class="mb-4" />
+                    <x-forms.validation-errors class="mb-4" />
 
                     <form method="POST" action="{{ route('password.email') }}" class="mt-4 space-y-4 lg:mt-5 md:space-y-5">
                         @csrf
@@ -44,7 +44,4 @@
                 </div>
             </div>
         </section>
-    </x-guest-layout>
-
-    <x-footer :year="date('Y')" />
-</body>
+@endsection

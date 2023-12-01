@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasRolesWithPermissions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -29,6 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'team_id', // Added team_id
     ];
 
     /**
@@ -61,5 +63,36 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
-    
+    /**
+     * Get the role associated with the user.
+     */
+    public function getRoleNames()
+    {
+        return $this->roles()->pluck('name');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function isTeamLeader()
+    {
+        return $this->hasRole('team_leader');
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isOrganizer()
+    {
+        return $this->hasRole('organizer');
+    }
+
+    public function isUser()
+    {
+        return $this->hasRole('user');
+    }
 }

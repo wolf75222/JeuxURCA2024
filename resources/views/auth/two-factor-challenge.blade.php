@@ -1,7 +1,12 @@
-<x-guest-layout>
-    <x-authentication-card>
+{{-- resources/views/auth/two-factor-challenge.blade.php --}}
+<!-- Status : factorisation -->
+
+@extends('layouts.guest', ['title' => 'Authentification à deux facteurs'])
+
+@section('content')
+    <x-auth.authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <x-auth.authentication-card-logo />
         </x-slot>
 
         <div x-data="{ recovery: false }">
@@ -13,7 +18,7 @@
                 {{ __('Please confirm access to your account by entering one of your emergency recovery codes.') }}
             </div>
 
-            <x-validation-errors class="mb-4" />
+            <x-forms.validation-errors class="mb-4" />
 
             <form method="POST" action="{{ route('two-factor.login') }}">
                 @csrf
@@ -48,11 +53,11 @@
                         {{ __('Use an authentication code') }}
                     </button>
 
-                    <x-button class="ms-4">
+                    <x-buttons.button class="ms-4">
                         {{ __('Log in') }}
-                    </x-button>
+                    </x-buttons.button>
                 </div>
             </form>
         </div>
-    </x-authentication-card>
-</x-guest-layout>
+    </x-auth.authentication-card>
+@endsection

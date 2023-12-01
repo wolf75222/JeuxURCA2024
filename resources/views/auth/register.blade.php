@@ -1,9 +1,9 @@
-<body class="bg-white dark:bg-gray-900">
-    <header>
-        @include('components.navigation')
-    </header>
+{{-- resources/views/auth/register.blade.php --}}
+<!-- Status : factorisation -->
 
-    <x-guest-layout>
+@extends('layouts.guest', ['title' => 'Inscription'])
+
+@section('content')
         <section class="bg-white dark:bg-gray-900">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="{{ url('/') }}"
@@ -18,7 +18,7 @@
                             Créez votre compte
                         </h1>
 
-                        <x-validation-errors class="mb-4" />
+                        <x-forms.validation-errors class="mb-4" />
 
                         <form method="POST" action="{{ route('register') }}" class="space-y-4 md:space-y-6">
                             @csrf
@@ -69,7 +69,4 @@
                 </div>
             </div>
         </section>
-    </x-guest-layout>
-
-    <x-footer :year="date('Y')" />
-</body>
+@endsection
