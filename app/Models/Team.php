@@ -8,8 +8,12 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'degree', 'color', 'password', 'members_count'];
-
+    protected $fillable = [
+        'name',
+        'members_count',
+        'password',
+        // Add more fields as needed
+    ];
 
     public function users()
     {
@@ -21,5 +25,20 @@ class Team extends Model
         return $this->belongsToMany(Event::class, 'team_event', 'team_id', 'event_id')
             ->withPivot('preferred_order')
             ->withTimestamps();
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function degree()
+    {
+        return $this->belongsTo(Degree::class);
+    }
+
+    public function matches()
+    {
+        return $this->hasMany(Matche::class);
     }
 }

@@ -130,7 +130,7 @@
                     </div>
                 </th>
                 <td class="px-6 py-4">{{ $team->description }}</td>
-                <td class="px-6 py-4">{{ $team->degree }}</td>
+                <td class="px-6 py-4">{{ $team->degree->name }}</td>
                 <td class="px-6 py-4">{{ $team->created_at->format('d/m/Y H:i:s') }}</td>
                 <td class="px-6 py-4">{{ $team->updated_at->format('d/m/Y H:i:s') }}</td>
                 <td class="px-6 py-4">{{ $team->members_count }}</td>

@@ -117,6 +117,22 @@ Route::middleware(['admin_or_organizer'])->group(function () {
     Route::get('/dashboard/teams', [\App\Http\Controllers\TeamController::class, 'index'])->name('dashboard.dashboard-teams');
 });
 
+
+
+Route::get('/dashboard/events', [App\Http\Controllers\EventController::class, 'index'])->name('dashboard.dashboard-event');
+Route::get('/dashboard/events/search', [App\Http\Controllers\EventController::class, 'search'])->name('events.search');
+Route::put('/dashboard/events/update/{id}', [App\Http\Controllers\EventController::class, 'update'])->name('events.update');
+Route::get('/dashboard/events/create', [App\Http\Controllers\EventController::class, 'create'])->name('events.create');
+Route::post('/dashboard/events/destroy-selected', [App\Http\Controllers\EventController::class, 'destroySelected'])->name('events.destroySelected');
+Route::post('/dashboard/events/store', [App\Http\Controllers\EventController::class, 'store'])->name('events.store');
+
+Route::get('/dashboard/events/{id}/phase', [App\Http\Controllers\PhaseController::class, 'index'])->name('dashboard.dashboard-phase');
+Route::get('/dashboard/events/{id}/phase/create', [App\Http\Controllers\PhaseController::class, 'create_phase'])->name('events.phase.create');
+Route::post('/dashboard/events/{id}/phase/store', [App\Http\Controllers\PhaseController::class, 'store'])->name('phase.store');
+Route::post('/dashboard/events/{id}/phase/destroy-selected', [App\Http\Controllers\PhaseController::class, 'destroySelected'])->name('phase.destroySelected');
+
+
+
 Route::put('/users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
 Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 

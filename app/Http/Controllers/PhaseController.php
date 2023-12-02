@@ -12,6 +12,24 @@ use Illuminate\Http\Request;
 
 class PhaseController extends Controller
 {
+
+    public function index(Request $request)
+    {
+        $eventId = $request->input('event_id'); // Get the event_id from the URL query parameters
+    
+        $phases = Phase::where('event_id', $eventId)->get(); // Adjust the query to filter phases by event_id
+
+    
+        // Assuming you also need to retrieve the specific event
+        $event = Event::find($eventId);
+    
+        return view('dashboard.dashboard-phase', compact('event', 'phases'));
+    }
+
+
+
+
+
     public function store(Request $request, $event_id)
     {
         $request->validate([
@@ -196,6 +214,23 @@ class PhaseController extends Controller
         return redirect()->back()->with('success', 'Match deleted successfully');
     }
 
+    public function destroySelected(Request $request)
+    {
+        \Log::info($request->all()); // Continuez à déboguer si nécessaire
+        $phaseId = $request->input('selected_phases', []);
+        \Log::info($phaseId); // Continuez à déboguer si nécessaire
+
+        // Filtrer et mapper les identifiants
+        $phaseId = array_filter($phaseId, 'is_numeric');
+        $phaseId = array_map('intval', $phaseId);
+
+        // Supprimer les évènement sélectionnés
+        Phase::whereIn('id', $phaseId)->delete();
+
+        return back()->with('success', 'Les phases sélectionnés ont été supprimés avec succès.');
+    }
+
+
     public function create_event(Request $request) {
         $request->validate([
             'name' => 'required|string',
@@ -203,6 +238,18 @@ class PhaseController extends Controller
 
         $event = Event::create(['name' => $request->input('name')]);
         $event->save();
+
+        return redirect()->back()->with('success', 'Event created successfully.');
+    }
+
+
+    public function create_phase(Request $request) {
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $phase = Phase::create(['name' => $request->input('name')]);
+        $phase->save();
 
         return redirect()->back()->with('success', 'Phase created successfully.');
     }
