@@ -23,7 +23,7 @@
         </svg>
         <span class="sr-only">Toggle sidebar</span>
       </button>
-      <a href="/" class="flex items-center justify-between mr-4">
+      <a href="{{ route('index') }}" class="flex items-center justify-between mr-4">
         <img src="{{ asset('img/jeuxdelurcaclrweb.png') }}" class="mr-3 h-8" alt="UrcaGames Logo" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Tableau de Bord</span>
       </a>
