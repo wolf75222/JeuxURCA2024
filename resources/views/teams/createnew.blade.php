@@ -5,12 +5,9 @@
 @section('content')
 
 @php
-$composantes = [
-'SEN', 'LSH', 'STAPS', 'DSP', 'ESIReims', 'Institut G. Chappaz',
-'Cdc', 'Odonto', 'IUT RCC', 'Inspé', 'Médecine', 'SESG',
-'Pharma', 'IUT Troyes', 'Siège'
-];
+use App\Models\Degree;
 
+$degrees = Degree::all();
 $colors = [
 'green', 'blue', 'red', 'yellow', 'indigo', 'purple', 'pink', 'gray'
 ];
@@ -38,16 +35,15 @@ $colors = [
                             placeholder="Décrivez brièvement l'équipe"></textarea>
                     </div>
                     <div class="w-full">
-                        <label for="degree"
+                        <label for="degree_id"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Composante</label>
-                        <select id="degree" name="degree"
+                        <select id="degree_id" name="degree_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            @foreach ($composantes as $composante)
-                            <option value="{{ $composante }}">{{ $composante }}</option>
+                            @foreach ($degrees as $degree)
+                            <option value="{{ $degree->id }}">{{ $degree->name }}</option>
                             @endforeach
                         </select>
                     </div>
-
                     <div class="w-full">
                         <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Couleur
                             de l'équipe</label>

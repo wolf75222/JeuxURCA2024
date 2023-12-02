@@ -28,7 +28,14 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                    @if ($this->user->profile_photo_path)
+                    <img class="w-10 h-10 rounded-full" src="{{ asset('storage/' . $this->user->image_path) }}" alt="{{ $this->user->name }} image">
+                     @else
+                    <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center">
+                        <span class="text-gray-500 text-lg">{{ substr($this->user->name, 0, 1) }}</span>
+                    </div>
+                @endif
+                    {{-- <img src="{{ $this->user->profile_photo_path }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover"> --}}
                 </div>
 
                 <!-- New Profile Photo Preview -->

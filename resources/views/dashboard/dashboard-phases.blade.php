@@ -6,7 +6,7 @@
 
 
       <main class="p-4 md:ml-64 h-auto pt-20">
-        <x-tables.table-dashboard-phase :event="$event" :phases="$phases"  />
+        <x-tables.table-dashboard-phase :event="$events" :phases="$phases"  />
 
       </main>
   

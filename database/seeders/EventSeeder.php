@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\Degree;
 use App\Models\Event;
 use App\Models\Group;
@@ -9,9 +10,6 @@ use App\Models\Matche;
 use App\Models\Phase;
 use App\Models\Team;
 use App\Models\TeamsRegisterEvents;
-use Carbon\PHPStan\Macro;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
 {
@@ -20,28 +18,72 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
-        $sen = Degree::create(['name' => 'SEN']);
-        $esi = Degree::create(['name' => 'ESI']);
-        Degree::create(['name' => 'MEDECINE']);
-        Degree::create(['name' => 'ODONTO']);
-        Degree::create(['name' => 'STAPS']);
+        // Create degrees
+        $degrees = collect([
+            'SEN', 'LSH', 'STAPS', 'DSP', 'ESIReims', 'Institut G. Chappaz',
+            'Cdc', 'Odonto', 'IUT RCC', 'Inspé', 'Médecine', 'SESG',
+            'Pharma', 'IUT Troyes', 'Siège'
+        ])->mapWithKeys(function ($degreeName) {
+            return [$degreeName => Degree::create(['name' => $degreeName])];
+        });
 
-        $equipe = Team::create(['name' => 'a', 'degree_id' => $sen->id, 'points' => 0, 'medailles' => 10]);
-        Team::create(['name' => 'b', 'degree_id' => $esi->id, 'points' => 10, 'medailles' => 0]);
+        // List of events
+        $events = [
+            'Badminton', 'Basket', 'Futsal', 'Handball', 'LazerRun', 'PaletsBretons',
+            'RelaisCrossfit', 'RelaisMarathon', 'Sumo', 'TouchRugby', 'Volley'
+        ];
 
-        $handball = Event::create(['name' => 'Handball']);
-        $teams_register_events = TeamsRegisterEvents::create(['event_id' => $handball->id, 'team_id' => $equipe->id, 'points' => 12]);
+        // Create events and associated records
+        foreach ($events as $eventName) {
+            $event = Event::create(['name' => $eventName]);
 
-        $poule = Phase::create(['name' => 'Poule', 'event_id' => $handball->id]);
-        $groupe1 = Group::create(['name' => 'Groupe 1', 'phase_id' => $poule->id]);
-        $groupe2 = Group::create(['name' => 'Groupe 2', 'phase_id' => $poule->id]);
-        $groupe3 = Group::create(['name' => 'Groupe 3', 'phase_id' => $poule->id]);
+            // Create two teams for each degree
+            foreach ($degrees as $degree) {
+                $teamA = Team::create([
+                    'name' => 'Team A ' . $degree->name,
+                    'degree_id' => $degree->id,
+                    'points' => 0,
+                    'medailles' => 10
+                ]);
+                
+                $teamB = Team::create([
+                    'name' => 'Team B ' . $degree->name,
+                    'degree_id' => $degree->id,
+                    'points' => 10,
+                    'medailles' => 0
+                ]);
 
-        $quart = Phase::create(['name' => 'Quart', 'event_id' => $handball->id]);
-        $quart1 = Matche::create(['type' => 'Quart 1', 'phase_id' => $quart->id, 'team1_id' => $equipe->id, 'team2_id' => $equipe->id]);
+                // Register teams for the event
+                TeamsRegisterEvents::create([
+                    'event_id' => $event->id,
+                    'team_id' => $teamA->id,
+                    'points' => 12
+                ]);
+                
+                TeamsRegisterEvents::create([
+                    'event_id' => $event->id,
+                    'team_id' => $teamB->id,
+                    'points' => 8
+                ]);
 
-        $demi = Phase::create(['name' => 'Demi', 'event_id' => $handball->id]);
+                // Create phases and groups for the event
+                $poule = Phase::create(['name' => 'Poule', 'event_id' => $event->id]);
+                Group::create(['name' => 'Groupe 1', 'phase_id' => $poule->id]);
+                Group::create(['name' => 'Groupe 2', 'phase_id' => $poule->id]);
+                Group::create(['name' => 'Groupe 3', 'phase_id' => $poule->id]);
 
-        $final = Phase::create(['name' => 'Final', 'event_id' => $handball->id]);
+                // Assuming each event has a quarter, semi, and final phase
+                $quart = Phase::create(['name' => 'Quart', 'event_id' => $event->id]);
+                Matche::create([
+                    'type' => 'Quart 1',
+                    'phase_id' => $quart->id,
+                    'team1_id' => $teamA->id,
+                    'team2_id' => $teamB->id
+                ]);
+
+                $demi = Phase::create(['name' => 'Demi', 'event_id' => $event->id]);
+                $final = Phase::create(['name' => 'Final', 'event_id' => $event->id]);
+            }
+        }
     }
 }

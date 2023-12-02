@@ -126,10 +126,6 @@ Route::get('/dashboard/events/create', [App\Http\Controllers\EventController::cl
 Route::post('/dashboard/events/destroy-selected', [App\Http\Controllers\EventController::class, 'destroySelected'])->name('events.destroySelected');
 Route::post('/dashboard/events/store', [App\Http\Controllers\EventController::class, 'store'])->name('events.store');
 
-Route::get('/dashboard/events/{id}/phase', [App\Http\Controllers\PhaseController::class, 'index'])->name('dashboard.dashboard-phase');
-Route::get('/dashboard/events/{id}/phase/create', [App\Http\Controllers\PhaseController::class, 'create_phase'])->name('events.phase.create');
-Route::post('/dashboard/events/{id}/phase/store', [App\Http\Controllers\PhaseController::class, 'store'])->name('phase.store');
-Route::post('/dashboard/events/{id}/phase/destroy-selected', [App\Http\Controllers\PhaseController::class, 'destroySelected'])->name('phase.destroySelected');
 
 
 
@@ -166,6 +162,58 @@ Route::post('/teams/join', [App\Http\Controllers\TeamController::class, 'joinTea
 Route::get('/teams/createnew', [App\Http\Controllers\TeamController::class, 'createnew'])->name('teams.createnew');
 Route::post('/teams/{team}/leave', [App\Http\Controllers\TeamController::class, 'leaveTeam'])->name('teams.leave');
 Route::get('/teams/{team}/edit', [App\Http\Controllers\TeamController::class, 'edit'])->name('teams.edit');
+
+
+//events
+
+Route::delete('/events/delete/{event_id}', [PhaseController::class, 'delete_event'])->name('delete.event');
+Route::delete('/events/destroySelected', [PhaseController::class, 'destroySelected'])->name('destroySelected.event');
+
+
+//phases
+Route::get('/dashboard/phases', [App\Http\Controllers\PhaseController::class, 'index'])->name('dashboard.dashboard-phases');
+// search 
+Route::get('/dashboard/phases/search', [App\Http\Controllers\PhaseController::class, 'search'])->name('phases.search');
+// update
+Route::put('/dashboard/phases/update/{id}', [App\Http\Controllers\PhaseController::class, 'update'])->name('phases.update');
+// Create
+Route::get('/dashboard/phases/create', [App\Http\Controllers\PhaseController::class, 'create_phasenew'])->name('phases.create_phasenew');
+// create_phase post
+Route::post('/dashboard/phases/store', [App\Http\Controllers\PhaseController::class, 'store'])->name('phases.store');
+//destroySelectedPhases
+Route::post('/dashboard/phases/destroySelectedPhases', [App\Http\Controllers\PhaseController::class, 'destroySelectedPhases'])->name('phases.destroySelectedPhases');
+
+
+//groups 
+Route::get('/dashboard/groups', [App\Http\Controllers\PhaseController::class, 'index_groups'])->name('dashboard.dashboard-groups');
+// search_groups
+Route::get('/dashboard/groups/search', [App\Http\Controllers\PhaseController::class, 'search_groups'])->name('groups.search_groups');
+// update_groups
+Route::put('/dashboard/groups/update/{id}', [App\Http\Controllers\PhaseController::class, 'update_groups'])->name('groups.update_groups');
+// create_groupnew
+Route::get('/dashboard/groups/create', [App\Http\Controllers\PhaseController::class, 'create_groupnew'])->name('groups.create_groupnew');
+// destroySelectedGroups
+Route::post('/dashboard/groups/destroySelected', [App\Http\Controllers\PhaseController::class, 'destroySelectedGroups'])->name('groups.destroySelected');
+// store_groups
+Route::post('/dashboard/groups/store', [App\Http\Controllers\PhaseController::class, 'store_groups'])->name('groups.store_groups');
+
+///dashboard/matches
+Route::get('/dashboard/matches', [App\Http\Controllers\PhaseController::class, 'index_matches'])->name('dashboard.dashboard-matches');
+// search_matches
+Route::get('/dashboard/matches/search', [App\Http\Controllers\PhaseController::class, 'search_matches'])->name('matches.search_matches');
+// update_matches
+Route::put('/dashboard/matches/update/{id}', [App\Http\Controllers\PhaseController::class, 'update_matches'])->name('matches.update_matches');
+// create_matchenew
+Route::get('/dashboard/matches/create', [App\Http\Controllers\PhaseController::class, 'create_matchenew'])->name('matches.create_matchenew');
+// store_matches
+Route::post('/dashboard/matches/store', [App\Http\Controllers\PhaseController::class, 'store_matches'])->name('matches.store_matches');
+// destroySelectedMatches
+Route::post('/dashboard/matches/destroySelected', [App\Http\Controllers\PhaseController::class, 'destroySelectedMatches'])->name('matches.destroySelectedmatches');
+
+Route::get('/dashboard/events/{id}/phase/create', [App\Http\Controllers\PhaseController::class, 'create_phase'])->name('events.phase.create');
+Route::post('/dashboard/events/{id}/phase/store', [App\Http\Controllers\PhaseController::class, 'store'])->name('phase.store');
+Route::post('/dashboard/events/{id}/phase/destroy-selected', [App\Http\Controllers\PhaseController::class, 'destroySelected'])->name('phase.destroySelected');
+
 
 
 

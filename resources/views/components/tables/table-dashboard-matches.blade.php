@@ -1,5 +1,4 @@
-@props(['events'])
-{{-- @props(['events', 'roles', 'teams']) --}}
+@props(['event', 'matches', 'teams', 'phases', 'groups'])
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <div
         class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
@@ -22,27 +21,27 @@
                     <li>
                         <a href="#"
                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            onclick="handleAction('create')">Créer un évènement</a>
+                            onclick="handleAction('create')">Créer un matchee</a>
                     </li>
                 </ul>
                 <div class="py-1">
                     <a href="#"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                        onclick="handleAction('delete')">Supprimer le(s) évènements</a>
+                        onclick="handleAction('delete')">Supprimer les matchees sélectionnés</a>
                 </div>
             </div>
         </div>
         <label for="table-search" class="sr-only">Search</label>
         <div class="relative">
-            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-matches-none">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                 </svg>
             </div>
-            <form action="{{ route('events.search') }}" method="GET">
-                <input type="text" id="table-search-events"
+            <form action="{{ route('matches.search_matches') }}" method="GET">
+                <input type="text" id="table-search-matches"
                     class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Rechercher des utilisateurs" name="search"
                     onkeydown="if (event.keyCode === 13) this.form.submit();">
@@ -62,9 +61,20 @@
                 <th scope="col" class="px-4 py-2">
                     Nom
                 </th>
-
                 <th scope="col" class="px-4 py-2">
-                    Date de création
+                    Type
+                </th>
+                <th scope="col" class="px-4 py-2">
+                    Phase 
+                </th>
+                <th scope="col" class="px-4 py-2">
+                    Évènement
+                </th>
+                <th scope="col" class="px-4 py-2">
+                    Gagnant
+                </th>
+                <th scope="col" class="px-4 py-2">
+                    Date d'inscription
                 </th>
                 <th scope="col" class="px-4 py-2">
                     Dernière mise à jour
@@ -75,33 +85,50 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($events as $event)
+            @foreach ($matches as $matche)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="w-4 p-4">
                     <div class="flex items-center">
-                        <input id="checkbox-table-search-{{ $event->id }}" type="checkbox" name="selected_events[]"
-                            value="{{ $event->id }}"
+                        <input id="checkbox-table-search-{{ $matche->id }}" type="checkbox" name="selected_matches[]"
+                            value="{{ $matche->id }}"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="checkbox-table-search-{{ $event->id }}" class="sr-only">checkbox</label>
+                        <label for="checkbox-table-search-{{ $matche->id }}" class="sr-only">checkbox</label>
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
 
                     <div class="ps-3">
-                        <div class="text-base font-semibold">{{ $event->name }}</div>
+                        <div class="text-base font-semibold">{{ $matche->team1->name }} vs {{ $matche->team2->name }}</div>
                     </div>
                 </th>
-
                 <td class="px-6 py-4">
-                    {{ \Carbon\Carbon::parse($event->created_at)->format('d/m/Y H:i:s') }}
+                    {{ $matche->type }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ \Carbon\Carbon::parse($event->updated_at)->format('d/m/Y H:i:s') }}
+                    {{ $matche->phase->name }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $matche->phase->event->name }}
+                </td>
+                <td class="px-6 py-4">
+                @if($matche->team1->id == $matche->winner_id)
+                    {{ $matche->team1->name }}
+                @elseif($matche->team2->id == $matche->winner_id)
+                    {{ $matche->team2->name }}
+                @else
+                    {{ $matche->winner_id }}
+                @endif
+                </td>
+                <td class="px-6 py-4">
+                    {{ \Carbon\Carbon::parse($matche->created_at)->format('d/m/Y H:i:s') }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ \Carbon\Carbon::parse($matche->updated_at)->format('d/m/Y H:i:s') }}
                 </td>
                 <td class="px-6 py-4 flex items-center">
                     <!-- Bouton Modifier -->
-                    <a href="#" class="mr-3" data-modal-target="editEventModal-{{ $event->id }}"
-                        data-modal-toggle="editEventModal-{{ $event->id }}">
+                    <a href="#" class="mr-3" data-modal-target="editmatcheModal-{{ $matche->id }}"
+                        data-modal-toggle="editmatcheModal-{{ $matche->id }}">
                         <svg class="w-5 h-5 text-blue-600 dark:text-gray-400 hover:text-blue-800 dark:hover:text-gray-300"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                             viewBox="0 0 20 18">
@@ -112,8 +139,8 @@
                         </svg>
                     </a>
                     <!-- Bouton Voir -->
-                    <a href="#" data-modal-target="showEventModal-{{ $event->id }}"
-                        data-modal-toggle="showEventModal-{{ $event->id }}">
+                    <a href="#" data-modal-target="showmatcheModal-{{ $matche->id }}"
+                        data-modal-toggle="showmatcheModal-{{ $matche->id }}">
                         <svg class="w-5 h-5 text-blue-600 dark:text-gray-400 hover:text-blue-800 dark:hover:text-gray-300"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                             viewBox="0 0 20 14">
@@ -121,39 +148,36 @@
                                 d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
                         </svg>
                     </a>
-
                 </td>
             </tr>
-            @include('components.modals.event-modal', ['event' => $event])
-            @include('components.modals.show-event-modal', ['event' => $event])
+            @include('components.modals.matche-modal', ['matche' => $matche])
+            @include('components.modals.show-matche-modal', ['matche' => $matche])
             @endforeach
         </tbody>
     </table>
 
-
-
-
     <div class="mt-4">
-        {{ $events->links('components.UI.pagination') }}
-    </div> 
+        {{ $matches->links('components.UI.pagination') }}
+    </div>
 </div>
+
 
 <script>
     function handleAction(action) {
-        const selectedCheckboxes = document.querySelectorAll('input[name="selected_events[]"]:checked');
-        let selectedevents = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+        const selectedCheckboxes = document.querySelectorAll('input[name="selected_matches[]"]:checked');
+        let selectedmatches = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
 
-        if (selectedevents.length > 0 || action === 'create') {
+        if (selectedmatches.length > 0 || action === 'create') {
             switch (action) {
                 case 'create':
-                    //{{ route('events.create') }}">Créer un utilisateur</a>
-                    window.location.href = "{{ route('events.create') }}";
+                    window.location.href = "{{ route('matches.create_matchenew') }}";
+
                     break;
                 case 'activate':
                     // Handle the 'activate' action
                     break;
                 case 'delete':
-                    showModal('deleteModal');
+                    showModal('deletematchesModal')
                     break;
                 default:
                     console.error('Action inconnue:', action);
@@ -163,7 +187,7 @@
         }
     }
 
-    function sendPostRequest(url, eventId) {
+    function sendPostRequest(url, matcheId) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = url;
@@ -174,11 +198,11 @@
         csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         form.appendChild(csrfToken);
 
-        eventId.forEach(eventId => {
+        matcheId.forEach(matcheId => {
             const hiddenInput = document.createElement('input');
             hiddenInput.type = 'hidden';
-            hiddenInput.name = 'selected_events[]';
-            hiddenInput.value = eventId;
+            hiddenInput.name = 'selected_matches[]';
+            hiddenInput.value = matcheId;
             form.appendChild(hiddenInput);
         });
 
@@ -188,7 +212,7 @@
 
     function toggleAllCheckboxes() {
         const checkboxAll = document.getElementById('checkbox-all-search');
-        const checkboxes = document.querySelectorAll('input[name="selected_events[]"]');
+        const checkboxes = document.querySelectorAll('input[name="selected_matches[]"]');
 
         checkboxes.forEach(checkbox => {
             checkbox.checked = checkboxAll.checked;
@@ -200,12 +224,14 @@
         if (modal) {
             modal.classList.remove('hidden');
         }
+        
     }
+
 </script>
 
-<!-- Modal de confirmation de suppression -->
-@include('components.modals.delete-modal-events', [
-'modalId' => 'deleteModal',
-'message' => 'Êtes-vous sûr de vouloir supprimer ces évènement ?',
-'confirmAction' => "sendPostRequest('" . route('events.destroySelected') . "', selectedevents)"
+<!-- Modal de confirmation de suppression -->   
+@include('components.modals.delete-modal-matches', [
+'modalId' => 'deletematchesModal',
+'message' => 'Êtes-vous sûr de vouloir supprimer ces matches ?',
+'confirmAction' => "sendPostRequest('" . route('teams.destroySelected') . "', selectedTeams)"
 ])

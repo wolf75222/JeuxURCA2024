@@ -8,7 +8,7 @@
             <div class="flex justify-between items-start pb-4 mb-4 border-b dark:border-gray-600">
                 <div class="flex items-center">
                     <h3 class="text-lg px-6 py-4  font-semibold text-gray-900 dark:text-white">
-                        Détails de l'évènement
+                        Détails de la phase
                     </h3>
                 </div>
                 <button type="button"
@@ -28,7 +28,7 @@
             <div class="text-gray-800 dark:text-white">
                 <div class="mb-4"><strong>ID :</strong> {{ $phase->id }}</div>
                 <div class="mb-4"><strong>Nom :</strong> {{ $phase->name }}</div>
-                <div class="mb-4"><strong>Évènement :</strong> {{ $event->name }}</div>
+                <div class="mb-4"><strong>Évènement :</strong> {{ $phase->event->name }}</div>
 
                 <div class="mb-4"><strong>Créé le :</strong> {{ $phase->created_at }}</div>
                 <div class="mb-4"><strong>Mis à jour le :</strong> {{ $phase->updated_at }}</div>

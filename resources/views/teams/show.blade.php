@@ -106,7 +106,7 @@
                     </div>
                     <div class="flex flex-col py-3">
                         <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Composante</dt>
-                        <dd class="text-lg font-semibold text-gray-800 dark:text-white">{{ $team->degree }}</dd>
+                        <dd class="text-lg font-semibold text-gray-800 dark:text-white">{{ $team->Degree->name }}</dd>
                     </div>
                     <div class="flex flex-col py-3">
                         <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Nombre de membres</dt>

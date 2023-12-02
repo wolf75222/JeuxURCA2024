@@ -10,8 +10,14 @@ class Team extends Model
 
     protected $fillable = [
         'name',
+        'description', // Assurez-vous que ce champ est inclus
         'members_count',
         'password',
+        'points',
+        'medailles',
+        'degree_id', // Assurez-vous que ce champ est inclus si vous utilisez degree_id dans la requête
+        'color',
+
         // Add more fields as needed
     ];
 
@@ -41,4 +47,6 @@ class Team extends Model
     {
         return $this->hasMany(Matche::class);
     }
+
+    
 }

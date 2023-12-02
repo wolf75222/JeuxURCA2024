@@ -11,6 +11,7 @@ use App\Models\Event;
 use App\Models\User;
 use Auth;
 use Spatie\Permission\Models\Role;
+use App\Models\Degree;
 
 class TeamController extends Controller
 {
@@ -44,23 +45,23 @@ class TeamController extends Controller
     {
         $user = Auth::user(); // Récupérer l'utilisateur connecté
         $team = $user->team; // Récupérer l'équipe de l'utilisateur
-    
+
         // Si l'utilisateur est dans une équipe, vérifiez s'il est le leader de l'équipe
         $isTeamLeader = $team ? $user->hasRole('team_leader') : false;
-    
+
         // Récupérer toutes les équipes avec pagination
         // La valeur '10' détermine le nombre d'équipes par page, vous pouvez ajuster cette valeur selon vos besoins
         $teams = Team::paginate(10);
-    
+
         // Retourner la vue avec les données de l'équipe et les équipes disponibles
         return view('pages.equipes', compact('team', 'isTeamLeader', 'teams'));
     }
-    
+
 
     public function leaveTeam(Request $request, Team $team): \Illuminate\Http\RedirectResponse
     {
         $user = Auth::user(); // Assuming you are using Laravel's built-in authentication
-    
+
         // Vérifier si l'utilisateur est le leader de l'équipe
         if ($user->hasRole('team leader') && $user->team_id == $team->id && $team->members_count > 1) {
             // Retirer le rôle de 'team_leader'
@@ -69,14 +70,14 @@ class TeamController extends Controller
             // Transférer le rôle de 'team_leader' à un autre membre de l'équipe
             $team->users()->where('id', '!=', $user->id)->first()->assignRole('team leader');
         }
-    
+
         // Diminuer le compteur de membres de l'équipe
         $team->decrement('members_count');
         // Dissocier l'utilisateur de l'équipe
         $user->team()->dissociate();
         // Enregistrer les modifications
         $user->save();
-    
+
         return redirect()->route('teams.show');
     }
 
@@ -127,7 +128,7 @@ class TeamController extends Controller
         $user->save();
 
         // Mettre à jour le nombre de membres de l'équipe 
-        
+
         $team->increment('members_count');
 
         return redirect()->route('teams.show')->with('success', 'You have successfully joined the team.');
@@ -137,26 +138,26 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         \Log::info($request->all());
-
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'degree' => 'required|string',
+            'degree_id' => 'required|exists:degrees,id', // Assurez-vous que degree_id existe dans la table degrees
             'color' => 'required|string',
             'password' => 'nullable|string|min:6',
         ]);
 
-        // Hash the password if it is provided
         $password = $request->input('password') ? Hash::make($request->input('password')) : null;
 
-        // Create the team
         $team = Team::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'degree' => $request->input('degree'),
+            'degree_id' => $request->input('degree_id'), // Utiliser degree_id au lieu de degree
             'color' => $request->input('color'),
             'password' => $password,
+            'points' => 0,
+            'medailles' => 0,
         ]);
+
 
         $user = Auth::user(); // Assuming you are using Laravel's built-in authentication
         $user->team()->associate($team);
@@ -181,85 +182,51 @@ class TeamController extends Controller
 
     public function update(Request $request, $id)
     {
-        $composantes = [
-            'SEN',
-            'LSH',
-            'STAPS',
-            'DSP',
-            'ESIReims',
-            'Institut G. Chappaz',
-            'Cdc',
-            'Odonto',
-            'IUT RCC',
-            'Inspé',
-            'Médecine',
-            'SESG',
-            'Pharma',
-            'IUT Troyes',
-            'Siège'
-        ];
-
-        $colors = [
-            'green',
-            'blue',
-            'red',
-            'yellow',
-            'indigo',
-            'purple',
-            'pink',
-            'gray'
-        ];
-
         // Trouver l'équipe par son ID
         $team = Team::findOrFail($id);
-
-        // Obtenir l'utilisateur actuel
-        $user = Auth::user();
 
         // Valider les données de la requête
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
-            'degree' => 'required|in:' . implode(',', $composantes),
-            'password' => 'nullable|string|min:6|confirmed', // New password and confirmation
-            'color' => 'nullable|in:' . implode(',', $colors),
-            'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048', // Validations for the logo file
+            'degree_id' => 'required|exists:degrees,id',
+            'password' => 'nullable|string|min:6|confirmed',
+            'color' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
         ]);
 
         // Mettre à jour les détails de l'équipe
         $team->name = $validatedData['name'];
-        $team->description = $validatedData['description'];
-        $team->degree = $validatedData['degree']; // Assurez-vous que le modèle Team a un attribut 'composante'
+        $team->description = $validatedData['description'] ?? $team->description; // Utiliser l'opérateur null coalescent
+        $team->degree_id = $validatedData['degree_id']; // Utiliser 'degree_id'
 
         // Mettre à jour le mot de passe si fourni
-        if ($validatedData['password']) {
+        if (!empty($validatedData['password'])) {
             $team->password = Hash::make($validatedData['password']);
         }
 
         // Mettre à jour la couleur si fournie
-        if ($validatedData['color']) {
+        if (!empty($validatedData['color'])) {
             $team->color = $validatedData['color'];
         }
 
+        // Gérer le téléchargement de l'image de logo
         if ($request->hasFile('logo')) {
             // Supprimer l'ancienne image si elle existe
-            if ($team->image_path && Storage::disk('public')->exists($team->image_path)) {
-                Storage::disk('public')->delete($team->image_path);
+            if ($team->logo && Storage::disk('public')->exists($team->logo)) {
+                Storage::disk('public')->delete($team->logo);
             }
-        
+
             // Stocker la nouvelle image
-            $imagePath = $request->file('logo')->store('team-images', 'public');
-            $team->image_path = $imagePath;
+            $imagePath = $request->file('logo')->store('team-logos', 'public');
+            $team->logo = $imagePath;
         }
 
-
+        // Sauvegarder les modifications
         $team->save();
 
-        if ($user->isAdmin() || $user->isOrganizer()) {
-            return redirect()->route('dashboard.dashboard-teams')->with('success', 'Team updated successfully!');
-        } else {
-            return redirect()->route('teams.show')->with('success', 'Team updated successfully!');
-        }
+        // Rediriger avec un message de succès
+        return redirect()->route('dashboard.dashboard-teams')->with('success', 'Team updated successfully.');
     }
 
     public function resetTeamImage(Request $request)
@@ -331,9 +298,10 @@ class TeamController extends Controller
         $roles = Role::all();
         $teams = Team::with('users')->get();
         $events = Event::all();
+        $degrees = Degree::all();
 
 
-        return view('teams.create', compact(['teams', 'events']), ['users' => $users, 'roles' => $roles]);
+        return view('teams.create', compact(['teams', 'events']), ['users' => $users, 'roles' => $roles], ['degrees' => $degrees]);
     }
 
 
@@ -343,9 +311,10 @@ class TeamController extends Controller
         $roles = Role::all();
         $teams = Team::with('users')->get();
         $events = Event::all();
+        $degrees = Degree::all();
 
 
-        return view('teams.createnew', compact(['teams', 'events']), ['users' => $users, 'roles' => $roles]);
+        return view('teams.createnew', compact(['teams', 'events']), ['users' => $users, 'roles' => $roles], ['degrees' => $degrees]);
     }
 
 

@@ -14,6 +14,7 @@ class Matche extends Model
         'event_id',
         'winner_id',
         'type', // 'final-principal', 'final-consolante', etc.
+        'phase_id',
     ];
 
     public function team1()

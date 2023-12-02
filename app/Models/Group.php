@@ -11,6 +11,7 @@ class Group extends Model
 
     protected $fillable = [
         'name',
+        'phase_id',
         // Add any other columns that your group table may have
     ];
 

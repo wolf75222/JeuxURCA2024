@@ -13,7 +13,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::all(); // retreive all the events
+        $events = Event::paginate(10);
         $phases = Phase::all();
         $groupes = Group::all();
         $matches = Matche::all();

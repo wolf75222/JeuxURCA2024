@@ -95,4 +95,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasRole('user');
     }
+    public function getProfilePhotoPathAttribute()
+    {
+        return $this->attributes['profile_photo_path'] ?? null;
+    }
+
 }
+

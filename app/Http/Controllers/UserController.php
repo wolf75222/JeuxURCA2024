@@ -109,7 +109,8 @@ class UserController extends Controller
         $search = $request->get('search');
         $users = User::where('name', 'like', '%' . $search . '%')->paginate(10);
         $roles = Role::all(); // Récupère tous les rôles
-        return view('dashboard.dashboard-users', compact('users', 'roles'));
+        $teams = Team::all(); // Récupère toutes les équipes
+        return view('dashboard.dashboard-users', compact('users', 'roles' , 'teams'));
     }
 
     public function resetProfilePhoto(Request $request)

@@ -1,9 +1,9 @@
-{{-- resources/views/components/modals/phase/phase-modal.blade.php --}}
+{{-- resources/views/components/modals/group/group-modal.blade.php --}}
 
 <!-- Status : factorisation -->
 
-<!-- Edit phase modal pour l'utilisateur {{ $phase->id }} -->
-<div id="editphaseModal-{{ $phase->id }}" tabindex="-1" aria-hidden="true"
+<!-- Edit group modal pour l'utilisateur {{ $group->id }} -->
+<div id="editgroupModal-{{ $group->id }}" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <!-- Modal content -->
@@ -11,11 +11,11 @@
             <!-- Modal header -->
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Modifier un utilisateur
+                    Modifier la group
                 </h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-md text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-close="editphaseModal-{{ $phase->id }}">
+                    data-modal-close="editgroupModal-{{ $group->id }}">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -27,7 +27,7 @@
 
                 <script>
                     document.querySelectorAll('[data-modal-close]').forEach(button => {
-                        button.addphaseListener('click', () => {
+                        button.addgroupListener('click', () => {
                             const modalId = button.getAttribute('data-modal-close');
                             const modal = document.getElementById(modalId);
                             if (modal) {
@@ -44,12 +44,12 @@
                 </script>
             </div>
             <!-- Modal body -->
-            <form action="{{ route('phases.update', $phase->id) }}" method="POST">
+            <form action="{{ route('groups.update_groups', $group->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom</label>
-                    <input type="text" id="name" name="name" value="{{ $phase->name }}"
+                    <input type="text" id="name" name="name" value="{{ $group->name }}"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required>
                 </div>
