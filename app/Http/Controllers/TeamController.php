@@ -43,18 +43,13 @@ class TeamController extends Controller
 
     public function equipes()
     {
-        $user = Auth::user(); // Récupérer l'utilisateur connecté
-        $team = $user->team; // Récupérer l'équipe de l'utilisateur
-
-        // Si l'utilisateur est dans une équipe, vérifiez s'il est le leader de l'équipe
-        $isTeamLeader = $team ? $user->hasRole('team_leader') : false;
 
         // Récupérer toutes les équipes avec pagination
         // La valeur '10' détermine le nombre d'équipes par page, vous pouvez ajuster cette valeur selon vos besoins
         $teams = Team::paginate(10);
 
         // Retourner la vue avec les données de l'équipe et les équipes disponibles
-        return view('pages.equipes', compact('team', 'isTeamLeader', 'teams'));
+        return view('pages.equipes', compact('teams'));
     }
 
 
