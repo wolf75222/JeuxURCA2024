@@ -55,32 +55,32 @@
               </button>
               <ul id="dropdown-pages" class="hidden py-2 space-y-2">
                 <li>
-                  <a href="/dashboard/users"
+                  <a href="{{ route('dashboard.dashboard-users') }}"
                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Utilisateurs</a>
                 </li>
                 <li>
-                  <a href="/dashboard/teams"
+                  <a href="{{ route('dashboard.dashboard-teams') }}"
                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Équipes</a>
                 </li>
                 <li>
-                  <a href="/dashboard/events"
+                  <a href="{{ route('dashboard.dashboard-event') }}"
                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Évènement</a>
                 </li>
                 <li>
-                  <a href="/dashboard/phases"
+                  <a href="{{ route('dashboard.dashboard-phases') }}"
                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Phases</a>
                 </li>
                 <li>
-                  <a href="/dashboard/groups"
+                  <a href="{{ route('dashboard.dashboard-groups') }}"
                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Groupes</a>
                 </li>
                 <li>
-                  <a href="/dashboard/matches"
+                  <a href="{{ route('dashboard.dashboard-matches') }}"
                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Matchs</a>
                 </li> 
 
                 <li>
-                  <a href="/dashboard/saisie"
+                  <a href="{{ route('dashboard.dashboard-saisie') }}"
                     class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Saisie</a>
                 </li>
               </ul>
