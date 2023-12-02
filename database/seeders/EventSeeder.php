@@ -28,7 +28,7 @@ class EventSeeder extends Seeder
         // List of events
         $events = [
             'Badminton', 'Basket', 'Futsal', 'Handball', 'LazerRun', 'PaletsBretons',
-            'RelaisCrossfit', 'RelaisMarathon', 'Sumo', 'TouchRugby', 'Volley'
+            'RelaisCrossfit', 'RelaisMarathon', 'Sumo', 'TouchRugby', 'Volley', 'Relais'
         ];
 
         // Create events, phases, teams and associated records

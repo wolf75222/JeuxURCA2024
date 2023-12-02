@@ -35,15 +35,14 @@ Route::get('/events/futsal', [App\Http\Controllers\SportController::class, 'futs
 Route::get('/events/handball', [App\Http\Controllers\SportController::class, 'handball'])->name('events.handball');
 
 
-Route::get('/events/laserRun', [App\Http\Controllers\SportController::class, 'laserRun'])->name('events.laserRun');
+Route::get('/events/lazerRun', [App\Http\Controllers\SportController::class, 'lazerRun'])->name('events.lazerRun');
 
 
 //sumo 
 Route::get('/events/sumo', [App\Http\Controllers\SportController::class, 'sumo'])->name('events.sumo');
 
 //TouchRugby
-Route::get('/events/TouchRugby', [App\Http\Controllers\SportController::class, 'touchRugby'])->name('events.TouchRugby');
-
+Route::get('/events/TouchRugby', [App\Http\Controllers\SportController::class, 'touchRugby'])->name('events.touchRugby');
 //Volley
 Route::get('/events/volley', [App\Http\Controllers\SportController::class, 'volley'])->name('events.volley');
 
@@ -214,12 +213,5 @@ Route::post('/dashboard/saisie/store', [App\Http\Controllers\SaisieController::c
 
 Route::get('/api/phases/{eventId}',[App\Http\Controllers\SaisieController::class, 'getPhasesByEvent']);
 Route::get('/api/matches/{phaseId}', [App\Http\Controllers\SaisieController::class, 'getMatchesByPhase']);
-
-
-
-Route::post('/team/{team}/events/{event}/register', [App\Http\Controllers\TeamController::class, 'registerEvent'])->name('team.registerEvent');
-Route::delete('/team/{team}/events/{event}/unregister', [App\Http\Controllers\TeamController::class, 'unregisterEvent'])->name('team.unregisterEvent');
-Route::post('/team/{team}/events/{event}/increment', [App\Http\Controllers\TeamController::class, 'incrementOrder'])->name('team.incrementOrder');
-Route::post('/team/{team}/events/{event}/decrement', [App\Http\Controllers\TeamController::class, 'decrementOrder'])->name('team.decrementOrder');
 
 

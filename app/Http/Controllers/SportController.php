@@ -60,28 +60,28 @@ class SportController extends Controller
         return view('events.handball', $data);
     }
 
-    public function laserRun()
+    public function lazerRun()
     {
-        $data = $this->getEventData('Laser Run');
-        return view('events.laserRun', $data);
+        $data = $this->getEventData('LazerRun');
+        return view('events.lazerRun', $data);
     }
 
 
     public function paletsBretons()
     {
-        $data = $this->getEventData('Palets Bretons');
+        $data = $this->getEventData('PaletsBretons');
         return view('events.paletsBretons', $data);
     }
 
     public function relaisCrossfit()
     {
-        $data = $this->getEventData('Relais Crossfit');
+        $data = $this->getEventData('RelaisCrossfit');
         return view('events.relaisCrossfit', $data);
     }
 
     public function relaisMarathon()
     {
-        $data = $this->getEventData('Relais Marathon');
+        $data = $this->getEventData('RelaisMarathon');
         return view('events.relaisMarathon', $data);
     }
 
@@ -93,8 +93,8 @@ class SportController extends Controller
 
     public function touchRugby()
     {
-        $data = $this->getEventData('Touch Rugby');
-        return view('events.touchRugby', $data);
+        $data = $this->getEventData('TouchRugby');
+        return view('events.TouchRugby', $data);
     }
 
     public function volley()
@@ -103,6 +103,11 @@ class SportController extends Controller
         return view('events.volley', $data);
     }
 
+    public function relais()
+    {
+        $data = $this->getEventData('relais');
+        return view('events.relais', $data);
+    }
 
 
 

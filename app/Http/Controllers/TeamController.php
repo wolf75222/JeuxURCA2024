@@ -266,31 +266,6 @@ class TeamController extends Controller
     }
 
 
-    // TeamController.php
-
-    public function registerEvent(Team $team, Event $event)
-    {
-        $team->events()->attach($event, ['preferred_order' => 1]); // Assuming default preferred order is 1
-        return redirect()->back();
-    }
-
-    public function unregisterEvent(Team $team, Event $event)
-    {
-        $team->events()->detach($event);
-        return redirect()->back();
-    }
-
-    public function incrementOrder(Team $team, Event $event)
-    {
-        $team->events()->updateExistingPivot($event, ['preferred_order' => DB::raw('preferred_order + 1')]);
-        return redirect()->back();
-    }
-
-    public function decrementOrder(Team $team, Event $event)
-    {
-        $team->events()->updateExistingPivot($event, ['preferred_order' => DB::raw('preferred_order - 1')]);
-        return redirect()->back();
-    }
 
     public function create()
     {

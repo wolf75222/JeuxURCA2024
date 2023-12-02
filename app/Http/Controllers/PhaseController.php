@@ -72,7 +72,7 @@ class PhaseController extends Controller
 
         // Delete associated groups and their team relationships
         $phase->groups()->each(function ($group) {
-            $group->teams()->delete();
+            $group->teams()->delete();  
             $group->delete();
         });
 
@@ -147,90 +147,6 @@ class PhaseController extends Controller
         return redirect()->back()->with('success', 'Phase and associated data deleted successfully');
     }
 
-    public function add_team_to_group(Request $request, $group_id)
-    {
-        // Validate the request
-        $request->validate([
-            'team_id' => 'required|exists:teams,id',
-        ]);
-
-        // Assuming you have a relationship in your Group model named 'teams'
-        $group = Group::findOrFail($group_id);
-
-        // Add the team to the group
-        $group_teams = GroupTeams::create([
-            'team_id' => $request->input('team_id'),
-            'group_id' => $group_id,
-        ]);
-        $group_teams->save();
-
-        // You can add a success message if needed
-        return redirect()->back()->with('success', 'Team added to group successfully');
-    }
-
-    public function remove_team_to_group(Request $request, $group_id, $team_id)
-    {
-        $group = Group::find($group_id);
-
-        $groupTeam = GroupTeams::where('group_id', $group_id)->where('team_id', $team_id)->first();
-        // Remove the team from the group
-        $groupTeam->delete();
-
-        // You can add a success message if needed
-        return redirect()->back()->with('success', 'Team added to group successfully');
-    }
-
-    public function update_groups_points(Request $request)
-    {
-        // Validate the request if needed
-
-        $data = $request->json()->all();
-
-        // Iterate through the data and update the points
-        foreach ($data as $teamId => $groupPoints) {
-            foreach ($groupPoints as $groupId => $points) {
-                // Find and update your model
-                GroupTeams::where(['team_id' => $teamId, 'group_id' => $groupId])->update(['points' => $points]);
-            }
-        }
-
-        // You can add a success message if needed
-        return response()->json(['success' => true]);
-    }
-
-    public function update_matches_results(Request $request)
-    {
-        // Validate the request if needed
-
-        $data = $request->json()->all();
-
-        foreach ($data as $match_id => $winner_id) {
-            $match = Matche::findOrFail($match_id);
-
-            if ($winner_id === 'null') {
-                $winner_id = null;
-            }
-
-            // Update the winner_id
-            $match->update(['winner_id' => $winner_id]);
-        }
-
-        return response()->json(['success' => true]);
-    }
-
-    public function update_score_phase(Request $request)
-    {
-        $data = $request->input('ids');
-
-        foreach ($data as $registrationId => $points) {
-            // Update the points in the database for each registration
-            $registration = TeamsRegisterEvents::findOrFail($registrationId); // Replace with your actual model
-            $registration->update(['points' => $points]);
-        }
-
-        return redirect()->back()->with('success', 'Points updated successfully');
-
-    }
 
     public function create_match(Request $request, $phase_id)
     {
