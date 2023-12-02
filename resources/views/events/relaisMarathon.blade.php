@@ -6,6 +6,7 @@
 
 @section('content')
 
+@props(['event', 'matches'])
 
 
 @php
@@ -77,6 +78,9 @@
             <x-UI.sport title="Relais marathon"
                 description="Participez au Relais Marathon des Jeux de l'URCA 2024, une épreuve d'endurance où la cohésion d'équipe et la stratégie sont clés. Une course passionnante où chaque relais contribue au succès."
                 image="{{ asset('img/marathon.png') }}" :rules="$rulesArray" :data="$top" />
+
+
+                <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection
 

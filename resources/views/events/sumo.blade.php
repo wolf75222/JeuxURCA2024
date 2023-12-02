@@ -5,6 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
+@props(['event', 'matches'])
 
 @php
 $rulesArray = [
@@ -78,5 +79,8 @@ $top = [
 <x-UI.sport title="Sumo"
     description="Vivez l'intensité et la stratégie du sumo aux Jeux de l'URCA 2024. Un affrontement de force et de technique où chaque combat est un spectacle."
     image="{{ asset('img/sumo.png') }}" :rules="$rulesArray" :data="$top" />
+
+
+    <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

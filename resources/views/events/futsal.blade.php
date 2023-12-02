@@ -6,6 +6,7 @@
 
 @section('content')
 
+@props(['event', 'matches'])
 
 
 @php
@@ -94,6 +95,6 @@
                 description="Explorez la dynamique rapide du Futsal aux Jeux de l'URCA 2024. Un jeu d'agilité et de stratégie où chaque match est un spectacle passionnant."
                 image="{{ asset('img/futsal.png') }}" :rules="$rulesArray" :data="$top" />
 
-
+                <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

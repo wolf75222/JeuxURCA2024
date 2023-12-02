@@ -1,5 +1,9 @@
 {{-- resources/views/components/modals/team-modal.blade.php --}}
 
+@php
+$degrees = App\Models\Degree::all();
+@endphp
+
 <!-- Show team modal pour l'équipe {{ $team->id }} -->
 <div id="showTeamModal-{{ $team->id }}" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 justify-center items-center w-full h-modal md:h-full">
@@ -70,8 +74,14 @@
                 <div class="mb-4"><strong>ID :</strong> {{ $team->id }}</div>
                 <div class="mb-4"><strong>Nom de l'équipe :</strong> {{ $team->name }}</div>
                 <div class="mb-4"><strong>Description :</strong> {{ $team->description }}</div>
-                <div class="mb-4"><strong>Composante :</strong> {{ $team->degree }}</div>
+                <div class="mb-4"><strong>Composante :</strong> @foreach ($degrees as $degree)
+                    @if ($degree->id == $team->degree_id)
+                    {{ $degree->name }}
+                    @endif
+                    @endforeach</div>
                 <div class="mb-4"><strong>Nombre de membres :</strong> {{ $team->members_count }}</div>
+                <div class="mb-4"><strong>Nombre de points :</strong> {{ $team->points }}</div>
+                <div class="mb-4"><strong>Nombre de médailles :</strong> {{ $team->medailles }}</div>
                 <div class="mb-4"><strong>Créé le :</strong> {{ $team->created_at }}</div>
                 <div class="mb-4"><strong>Mis à jour le :</strong> {{ $team->updated_at }}</div>
                 @if(!empty($team->image_path))

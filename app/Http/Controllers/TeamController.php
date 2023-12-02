@@ -351,6 +351,19 @@ class TeamController extends Controller
         return view('teams.edit', compact('team'));
     }
 
+
+    public function classement()
+    {
+        // Get teams sorted by 'medailles' in descending order
+        $teams_medaille = Team::orderBy('medailles', 'desc')->paginate(10);
+
+        // Get teams sorted by 'points' in descending order
+        $teams_point = Team::orderBy('points', 'desc')->paginate(10);
+
+        // Return the view with both sets of teams
+        return view('pages.classement', compact('teams_medaille', 'teams_point'));
+    }
+
 }
 
 

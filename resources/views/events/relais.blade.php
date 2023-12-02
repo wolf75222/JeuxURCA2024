@@ -7,6 +7,7 @@
 @section('content')
 
 
+@props(['event', 'matches'])
 
 @php
         $top = [
@@ -77,6 +78,7 @@
                 description="Participez au Relais en Bloc d'Escalade aux Jeux de l'URCA 2024, une compétition où adresse et cohésion d'équipe se conjuguent pour une expérience à couper le souffle."
                 image="{{ asset('img/relais.png') }}" :rules="$rulesArray" :data="$top" />
 
+                <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 
 

@@ -192,10 +192,6 @@ focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expande
                     <a href="{{ url('pages/sports') }}"
                         class="block py-2 pl-3 pr-4 {{ Request::is('pages/sports') ? 'text-blue-500 dark:text-blue-500' : 'text-gray-900 dark:text-white' }} rounded md:hover:bg-transparent md:hover:text-blue-500 md:p-0  md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sport</a>
                 </li>
-                <li>
-                    <a href="{{ url('pages/regles') }}"
-                        class="block py-2 pl-3 pr-4 {{ Request::is('pages/regles') ? 'text-blue-500  dark:text-blue-500' : 'text-gray-900 dark:text-white' }} rounded md:hover:bg-transparent md:hover:text-blue-500 md:p-0  md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Règles</a>
-                </li>
             </ul>
 
         </div>

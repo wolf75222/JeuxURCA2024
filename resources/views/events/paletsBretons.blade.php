@@ -6,6 +6,7 @@
 
 @section('content')
 
+@props(['event', 'matches'])
 
 
 @php
@@ -88,5 +89,6 @@ pas de départage supplémentaire.',
     description="Participez à l'élégance tactique des Palets bretons aux Jeux de l'URCA 2024. Un défi d'adresse et de stratégie dans un cadre compétitif captivant."
     image="{{ asset('img/palet.png') }}" :rules="$rulesArray" :data="$top" />
 
+    <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

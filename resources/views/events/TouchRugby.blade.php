@@ -6,6 +6,7 @@
 
 @section('content')
 
+@props(['event', 'matches'])
 
 
 @php
@@ -94,5 +95,8 @@ expulsions temporaires réduites à 1 minute.',
 <x-UI.sport title="Touch Rugby"
     description="Découvrez le touch rugby, un sport qui combine agilité, stratégie et rapidité. Vivez des moments intenses lors des Jeux de l'URCA 2024."
     image="{{ asset('img/rudby.png') }}" :rules="$rulesArray" :data="$top" />
+
+
+    <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

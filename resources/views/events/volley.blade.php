@@ -4,6 +4,7 @@
 @extends('layouts.app')
 
 @section('content')
+@props(['event', 'matches'])
 
 
 
@@ -90,6 +91,6 @@ auto-arbitrage.',
     description="Plongez dans l'univers compétitif du Volley aux Jeux de l'URCA 2024. Un jeu qui combine agilité et esprit d'équipe, chaque point joué est un spectacle en soi."
     image="{{ asset('img/volley.png') }}" :rules="$rulesArray" :data="$top" />
 
-
+    <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

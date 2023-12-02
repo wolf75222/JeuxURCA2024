@@ -5,6 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
+@props(['event', 'matches'])
 
     @php
         $rulesArray = [
@@ -78,5 +79,8 @@
         <x-UI.sport title="Handball"
             description="Découvrez le dynamisme et l'excitation du handball lors des Jeux de l'URCA 2024. Un sport où agilité, force et esprit d'équipe se rencontrent."
             image="{{ asset('img/handball.png') }}" :rules="$rulesArray" :data="$top" />
+
+
+            <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

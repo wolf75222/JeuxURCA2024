@@ -6,6 +6,7 @@
 
 @section('content')
 
+@props(['event', 'matches'])
 
 
 @php
@@ -77,6 +78,7 @@ suivant. L’épreuve se termine une fois tous les membres ayant effectué leur 
 <x-UI.sport title="Relais Crossfit"
     description="Plongez dans l'univers intense du Relais Crossfit lors des Jeux de l'URCA 2024. Un événement qui met à l'épreuve force et endurance, dans un esprit d'équipe stimulant."
     image="{{ asset('img/crossfit.png') }}" :rules="$rulesArray" :data="$top" />
+    <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 
 

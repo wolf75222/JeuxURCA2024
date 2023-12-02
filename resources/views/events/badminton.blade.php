@@ -2,10 +2,14 @@
 
 <!-- Status : table -->
 
+
 @extends('layouts.app')
 
-@section('content')
 
+@section('content')
+    
+        
+@props(['event', 'matches'])
 
 
 @php
@@ -88,4 +92,6 @@
             <x-UI.sport title="Badminton"
                 description="Découvrez le dynamisme du badminton, un sport où la vitesse et la précision se rencontrent pour offrir un spectacle passionnant. Rejoignez-nous aux Jeux de l'URCA 2024."
                 image="{{ asset('img/badminton.png') }}" :rules="$rulesArray" :data="$top" />
+
+                <x-tables.table-classement-event :event="$event" :matches="$matches" />
 @endsection

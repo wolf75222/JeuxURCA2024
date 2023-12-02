@@ -70,9 +70,7 @@
 </section>
 
 
-<section class="bg-white dark:bg-gray-900">
-    <div class="py-16 px-32 mx-auto max-w-screen-xl">
-        Table
+<div class="py-16 px-32 mx-auto max-w-screen-xl">
+        <h1 class="text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">Les Matchs</h1>
     </div>
-</section>
 

@@ -6,6 +6,7 @@
 
 @section('content')
 
+@props(['event', 'matches'])
 
 
 @php
@@ -82,5 +83,8 @@ et pénalités.',
 <x-UI.sport title="Laser Run"
     description="Découvrez le Laser Run, un mélange exaltant de précision et d'endurance. Relevez le défi du parcours et de la visée laser dans cette course palpitante des Jeux de l'URCA 2024."
     image="{{ asset('img/lazer.png') }}" :rules="$rulesArray" :data="$top" />
+
+
+    <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

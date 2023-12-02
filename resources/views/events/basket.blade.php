@@ -6,6 +6,7 @@
 
 @section('content')
 
+@props(['event', 'matches'])
 
 
 @php
@@ -89,5 +90,6 @@
                 description="Entrez dans l'arène du Basket 3X3 aux Jeux de l'URCA 2024, un tournoi rapide et stratégique où chaque mouvement compte. Un spectacle d'agilité et de coordination."
                 image="{{ asset('img/basket.png') }}" :rules="$rulesArray" :data="$top" />
 
+                <x-tables.table-classement-event :event="$event" :matches="$matches" />
 
 @endsection

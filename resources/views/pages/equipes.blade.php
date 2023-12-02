@@ -1,5 +1,12 @@
 @extends('layouts.app', ['title' => 'Liste des Équipes'])
 
+@php
+use App\Models\Degree;
+
+$degrees = Degree::all();
+
+@endphp
+
 @section('content')
 <div class="container mx-auto p-6">
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
@@ -67,7 +74,11 @@
                                 {{ $team->description }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $team->degree }}
+                                @foreach ($degrees as $degree)
+                                    @if ($degree->id == $team->degree_id)
+                                        {{ $degree->name }}
+                                    @endif
+                                @endforeach
                             </td>
                         </tr>
                         @endforeach

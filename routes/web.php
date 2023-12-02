@@ -21,59 +21,44 @@ Route::get('pages/sports', function () {
 
 
 
-Route::get('pages/classement', function () {
-    return view('pages.classement');
-});
+Route::get('pages/classement', [App\Http\Controllers\TeamController::class, 'classement'])->name('pages.classement');
 
-Route::get('events/handball', function () {
-    return view('events.handball');
-});
-
-Route::get('events/sumo', function () {
-    return view('events.sumo');
-});
-
-Route::get('events/TouchRugby', function () {
-    return view('events.TouchRugby');
-});
-
-Route::get('events/lazerRun', function () {
-    return view('events.lazerRun');
-});
-
-Route::get('events/futsal', function () {
-    return view('events.futsal');
-});
-
-Route::get('events/paletsBretons', function () {
-    return view('events.paletsBretons');
-});
+Route::get('/events/badminton', [App\Http\Controllers\SportController::class, 'badminton'])->name('events.badminton');
 
 
-Route::get('events/badminton', function () {
-    return view('events.badminton');
-});
+Route::get('/events/basket', [App\Http\Controllers\SportController::class, 'basket'])->name('events.basket');
 
 
-Route::get('events/relaisCrossfit', function () {
-    return view('events.relaisCrossfit');
-});
+Route::get('/events/futsal', [App\Http\Controllers\SportController::class, 'futsal'])->name('events.futsal');
 
-Route::get('events/volley', function () {
-    return view('events.volley');
-});
 
-Route::get('events/basket', function () {
-    return view('events.basket');
-});
+Route::get('/events/handball', [App\Http\Controllers\SportController::class, 'handball'])->name('events.handball');
 
-Route::get('events/relaisMarathon', function () {
-    return view('events.relaisMarathon');
-});
 
-Route::get('events/relais', function () {
-    return view('events.relais');
-});
+Route::get('/events/laserRun', [App\Http\Controllers\SportController::class, 'laserRun'])->name('events.laserRun');
+
+
+//sumo 
+Route::get('/events/sumo', [App\Http\Controllers\SportController::class, 'sumo'])->name('events.sumo');
+
+//TouchRugby
+Route::get('/events/TouchRugby', [App\Http\Controllers\SportController::class, 'touchRugby'])->name('events.TouchRugby');
+
+//Volley
+Route::get('/events/volley', [App\Http\Controllers\SportController::class, 'volley'])->name('events.volley');
+
+//paletsBretons
+Route::get('/events/paletsBretons', [App\Http\Controllers\SportController::class, 'paletsBretons'])->name('events.paletsBretons');
+
+//relaisCrossfit
+Route::get('/events/relaisCrossfit', [App\Http\Controllers\SportController::class, 'relaisCrossfit'])->name('events.relaisCrossfit');
+
+//relaisMarathon
+Route::get('/events/relaisMarathon', [App\Http\Controllers\SportController::class, 'relaisMarathon'])->name('events.relaisMarathon');
+
+//relais
+
+Route::get('/events/relais', [App\Http\Controllers\SportController::class, 'relais'])->name('events.relais');
 
 Route::get('pages/equipes', [App\Http\Controllers\TeamController::class, 'equipes'])->name('pages.equipes');
 
@@ -214,6 +199,21 @@ Route::get('/dashboard/events/{id}/phase/create', [App\Http\Controllers\PhaseCon
 Route::post('/dashboard/events/{id}/phase/store', [App\Http\Controllers\PhaseController::class, 'store'])->name('phase.store');
 Route::post('/dashboard/events/{id}/phase/destroy-selected', [App\Http\Controllers\PhaseController::class, 'destroySelected'])->name('phase.destroySelected');
 
+
+
+
+
+
+
+// saisie 
+Route::get('/dashboard/saisie', [App\Http\Controllers\SaisieController::class, 'index'])->name('dashboard.dashboard-saisie');
+// store points
+Route::post('/dashboard/saisie/store', [App\Http\Controllers\SaisieController::class, 'storePoints'])->name('matches.store_points');
+
+
+
+Route::get('/api/phases/{eventId}',[App\Http\Controllers\SaisieController::class, 'getPhasesByEvent']);
+Route::get('/api/matches/{phaseId}', [App\Http\Controllers\SaisieController::class, 'getMatchesByPhase']);
 
 
 
